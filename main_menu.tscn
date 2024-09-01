@@ -1,0 +1,168 @@
+[gd_scene load_steps=12 format=3 uid="uid://clvfrj8m6cgrs"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_0jmqy"]
+[ext_resource type="MeshLibrary" uid="uid://bsltbgmt3qnt4" path="res://dungeon_tileset.tres" id="2_pg6q3"]
+[ext_resource type="FontFile" uid="uid://dso8fhrkvyrop" path="res://Dungeon Crawler CB.ttf" id="3_22ady"]
+[ext_resource type="AudioStream" uid="uid://tdo8thldrpg1" path="res://game menu.mp3" id="3_us6o3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uvtom"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ceqre"]
+sky_material = SubResource("ProceduralSkyMaterial_uvtom")
+
+[sub_resource type="Environment" id="Environment_7ycui"]
+background_mode = 1
+sky = SubResource("Sky_ceqre")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+tonemap_mode = 2
+glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.3953
+volumetric_fog_albedo = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_hj02g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/GridMap/Camera3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sjqs5"]
+resource_name = "camera_rotation"
+length = 30.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/GridMap/Camera3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 30),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qvhec"]
+_data = {
+"RESET": SubResource("Animation_hj02g"),
+"camera_rotation": SubResource("Animation_sjqs5")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_tujxq"]
+font = ExtResource("3_22ady")
+font_size = 45
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0jmqy")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7ycui")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="GridMap" type="GridMap" parent="SubViewportContainer/SubViewport"]
+mesh_library = ExtResource("2_pg6q3")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(0, 0, 1048576, 0, 65535, 655363, 65535, 65535, 655360, 1, 0, 1441792, 1, 65535, 1441795, 1, 65534, 3, 65535, 65534, 0, 65534, 65534, 3, 65534, 65535, 1441795, 65534, 0, 1441792, 65534, 1, 3, 65535, 1, 0, 0, 1, 1048579, 1, 1, 3, 2, 1, 0, 2, 65535, 655360, 2, 65534, 0, 1, 65533, 1441792, 1, 65532, 1441795, 0, 65532, 655363, 0, 65533, 1048576, 65535, 65532, 655360, 65534, 65533, 1441792, 65534, 65532, 1441795, 2, 65532, 655360, 3, 65532, 655363, 3, 65533, 1048576, 3, 65534, 1048579, 3, 65535, 655363, 3, 0, 1048576, 3, 1, 1048579, 65533, 2, 655361, 4, 65531, 1, 4, 2, 1441793, 65533, 65531, 1048577, 65533, 1, 1048576, 65533, 0, 1048576, 65533, 65535, 1048576, 65533, 65534, 1048576, 65533, 65533, 1048576, 65533, 65532, 1048576, 65534, 65531, 0, 65535, 65531, 0, 0, 65531, 1048579, 1, 65531, 3, 2, 65531, 0, 3, 65531, 0, 4, 65532, 1441792, 4, 65533, 1441792, 4, 65534, 1441792, 4, 65535, 1441792, 4, 0, 1441792, 4, 1, 1441792, 3, 2, 655360, 2, 2, 655360, 1, 2, 655360, 0, 2, 655360, 65535, 2, 655360, 65534, 2, 655360, 0, 65534, 1048579, 1, 65530, 1441792, 0, 65530, 1048576, 0, 65529, 1048576, 0, 65528, 1048576, 0, 65527, 1048576, 0, 65526, 1048576, 0, 65525, 1048576, 0, 65524, 1048576, 1, 65529, 1441792, 1, 65528, 1441792, 1, 65527, 1441792, 1, 65526, 1441792, 1, 65525, 1441792, 1, 65524, 1441792)
+}
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/GridMap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08514, 0.976352, -0.738142)
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -15.5
+offset_right = 45.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play
+"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = 62.0
+offset_right = 23.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit
+"
+
+[node name="Controls" type="Button" parent="."]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 263.0
+offset_right = 356.0
+offset_bottom = 294.0
+text = "Controls"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qvhec")
+}
+autoplay = "camera_rotation"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.5
+offset_top = 110.0
+offset_right = 45.5
+offset_bottom = 133.0
+grow_horizontal = 2
+text = "Spirit Guide"
+label_settings = SubResource("LabelSettings_tujxq")
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_us6o3")
+autoplay = true
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Controls" to="." method="_on_controls_pressed"]

@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://clh3ag4trkhbg"]
+
+[ext_resource type="Script" path="res://character_controller.gd" id="1_epe38"]
+[ext_resource type="AudioStream" uid="uid://dtggt2dq2t7p8" path="res://footstep.mp3" id="2_yifhw"]
+[ext_resource type="AudioStream" uid="uid://d1rtw7g02jj8x" path="res://jump.mp3" id="3_exf4v"]
+[ext_resource type="AudioStream" uid="uid://de4fnvdat386l" path="res://plasma gun.mp3" id="3_yqv3x"]
+[ext_resource type="FontFile" uid="uid://dso8fhrkvyrop" path="res://Dungeon Crawler CB.ttf" id="5_7sc74"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_aflcs"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_s50lf"]
+points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
+
+[sub_resource type="LabelSettings" id="LabelSettings_56b3w"]
+font = ExtResource("5_7sc74")
+font_size = 30
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="CharacterBody3D" type="CharacterBody3D" groups=["Player"]]
+script = ExtResource("1_epe38")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1224, 0)
+mesh = SubResource("CapsuleMesh_aflcs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1224, 0)
+shape = SubResource("ConvexPolygonShape3D_s50lf")
+
+[node name="Neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56518, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Neck"]
+
+[node name="GunDirection" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0291599, 0)
+target_position = Vector3(0, 0, -5)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_yifhw")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_exf4v")
+
+[node name="PlasmaGunSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_yqv3x")
+
+[node name="Info" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -97.0
+offset_top = 40.0
+offset_right = 91.0
+offset_bottom = 92.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_56b3w")

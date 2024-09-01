@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://shcr6dh4o1x"]
+
+[ext_resource type="Script" path="res://node_3d.gd" id="1_n48a5"]
+[ext_resource type="Texture2D" uid="uid://ou46pnkp0w58" path="res://red.png" id="2_v57w6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0my5x"]
+
+[node name="RedBullet" type="Node3D"]
+script = ExtResource("1_n48a5")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_v57w6")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 1)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.600569, 0, 0, 0, 0.609356, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("SphereShape3D_0my5x")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

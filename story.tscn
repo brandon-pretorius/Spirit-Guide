@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://bapbykejkuqak"]
+
+[ext_resource type="Script" path="res://story.gd" id="1_y6ss2"]
+
+[node name="Story" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y6ss2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 646.0
+offset_bottom = 492.0
+color = Color(0, 0, 0, 1)
+
+[node name="StoryLines" type="Label" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 34.0
+offset_right = 613.0
+offset_bottom = 325.0
+text = "Hello? Oh man, I'm so glad you picked up. Listen, I need your help. I know I kinda screwed you over a while back by stealing that pendant of yours, but I needed it for the money. To be fair you never told me that it was infested with ghosts either. So what's happened is kinda both our faults. Anyways I may have opened a portal to the ghost dimention and now spirits are roaming the old sewer-system. Don't ask me what I was doing down there. I'm not too keen on life in two dimensions. And besides you are a GhostBus... Destroyer. Anyways hope you'll sort this out soon, byeeeee."
+autowrap_mode = 2
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="leave" type="Button" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 431.0
+offset_right = 68.0
+offset_bottom = 462.0
+text = "Continue?"
+
+[connection signal="pressed" from="leave" to="." method="_on_leave_pressed"]

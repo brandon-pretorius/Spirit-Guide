@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://04kia6ngctny"]
+
+[ext_resource type="Script" path="res://spirit.gd" id="1_v8ye0"]
+[ext_resource type="Texture2D" uid="uid://3f0f0lj5o1ts" path="res://spirit.png" id="2_sq37e"]
+[ext_resource type="AudioStream" uid="uid://bu7oygyyjhkgi" path="res://collection.mp3" id="3_ix600"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ufqso"]
+
+[node name="Spirit" type="Area3D"]
+script = ExtResource("1_v8ye0")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0.413303, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_sq37e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.536747, 0)
+shape = SubResource("SphereShape3D_ufqso")
+
+[node name="CollectionSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ix600")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

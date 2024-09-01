@@ -1,0 +1,163 @@
+[gd_scene load_steps=14 format=3 uid="uid://dluuv5u1iin76"]
+
+[ext_resource type="Texture2D" uid="uid://conbv1g21xrv2" path="res://gun shoot.png" id="1_xy55y"]
+[ext_resource type="Script" path="res://hud.gd" id="1_y854r"]
+[ext_resource type="Texture2D" uid="uid://3f0f0lj5o1ts" path="res://spirit.png" id="3_cfkp0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rd6u"]
+atlas = ExtResource("1_xy55y")
+region = Rect2(0, 0, 161, 149)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjomk"]
+atlas = ExtResource("1_xy55y")
+region = Rect2(0, 0, 161, 149)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmuc3"]
+atlas = ExtResource("1_xy55y")
+region = Rect2(161, 0, 161, 149)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40xxv"]
+atlas = ExtResource("1_xy55y")
+region = Rect2(322, 0, 161, 149)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_14omp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rd6u")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjomk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmuc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40xxv")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 8.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nobrd"]
+bg_color = Color(0.135, 0.5, 0.323583, 1)
+
+[sub_resource type="Animation" id="Animation_jnnvp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AmmoBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [50.0]
+}
+
+[sub_resource type="Animation" id="Animation_obm6l"]
+resource_name = "ammo_bar_refill"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AmmoBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 10.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_beet8"]
+_data = {
+"RESET": SubResource("Animation_jnnvp"),
+"ammo_bar_refill": SubResource("Animation_obm6l")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyivt"]
+bg_color = Color(0.61, 0, 0.1525, 1)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_y854r")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = 408.0
+offset_right = 644.0
+offset_bottom = 484.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(400, 347)
+sprite_frames = SubResource("SpriteFrames_14omp")
+animation = &"shoot"
+autoplay = "idle"
+
+[node name="AmmoBar" type="ProgressBar" parent="."]
+offset_left = 454.0
+offset_top = 441.0
+offset_right = 625.0
+offset_bottom = 468.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_nobrd")
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_beet8")
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = 15.0
+offset_top = 444.0
+offset_right = 187.0
+offset_bottom = 471.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_nyivt")
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 542.0
+offset_top = 4.0
+offset_right = 1342.0
+offset_bottom = 987.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("3_cfkp0")
+
+[node name="SpiritNumber" type="Label" parent="."]
+offset_left = 586.0
+offset_top = 24.0
+offset_right = 626.0
+offset_bottom = 68.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 66.0
+offset_top = 415.0
+offset_right = 128.0
+offset_bottom = 438.0
+text = "HEALTH"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 416.0
+offset_right = 574.0
+offset_bottom = 439.0
+text = "PLASMA"
+
+[connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]

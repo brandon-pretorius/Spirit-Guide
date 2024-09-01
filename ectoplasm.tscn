@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://q7oao8yqjy3m"]
+
+[ext_resource type="Script" path="res://ectoplasm.gd" id="1_1iiou"]
+[ext_resource type="Texture2D" uid="uid://c243nepwm0sfn" path="res://plasma.png" id="2_nx8m2"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_573gw"]
+radius = 0.33639
+
+[node name="Ectoplasm" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46904, 0)
+script = ExtResource("1_1iiou")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_nx8m2")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -0.5)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_573gw")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
